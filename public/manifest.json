@@ -1,0 +1,37 @@
+{
+  "name": "AIWorkout – AI-Powered Workout Planner",
+  "short_name": "AIWorkout",
+  "description": "Plan and track your workouts with AI-powered assistance",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#6366f1",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["health", "fitness"],
+  "shortcuts": [
+    {
+      "name": "New Workout",
+      "url": "/plan",
+      "description": "Generate a new workout plan"
+    },
+    {
+      "name": "Log Workout",
+      "url": "/log",
+      "description": "Log your workout session"
+    }
+  ]
+}
