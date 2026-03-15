@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateWorkoutPlan, getWorkoutTips, WorkoutGenerationParams } from "@/lib/gemini";
+import { buildWorkoutContext, formatContextForPrompt } from "@/lib/rag";
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,8 +18,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const plan = await generateWorkoutPlan(body);
-    return NextResponse.json({ plan });
+    // Build RAG context from workout history – fail silently if DB is unavailable
+    let ragContext: string | undefined;
+    let personalized = false;
+    try {
+      const context = await buildWorkoutContext();
+      ragContext = formatContextForPrompt(context);
+      personalized = ragContext.length > 0;
+    } catch {
+      // RAG context is best-effort; generation proceeds without it
+    }
+
+    const plan = await generateWorkoutPlan(body, ragContext);
+    return NextResponse.json({ plan, personalized });
   } catch (error) {
     console.error("POST /api/generate error:", error);
     const message = error instanceof Error ? error.message : "Failed to generate content";

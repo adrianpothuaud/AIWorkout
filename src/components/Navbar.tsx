@@ -38,12 +38,12 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-slate-900 border-t border-slate-700 md:top-0 md:bottom-auto md:border-t-0 md:border-b">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 md:top-0 md:bottom-auto md:border-t-0 md:border-b shadow-sm">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-around md:justify-start md:gap-8 h-16">
           <div className="hidden md:flex items-center gap-2 mr-8">
             <span className="text-2xl">💪</span>
-            <span className="text-xl font-bold text-indigo-400">AIWorkout</span>
+            <span className="text-xl font-bold text-indigo-600">AIWorkout</span>
           </div>
           {navItems.map((item) => {
             const isActive = pathname === item.href;
@@ -54,8 +54,8 @@ export default function Navbar() {
                 data-testid={`nav-${item.label.toLowerCase()}`}
                 className={`flex flex-col md:flex-row items-center gap-1 md:gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   isActive
-                    ? "text-indigo-400 bg-indigo-950"
-                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
+                    ? "text-indigo-600 bg-indigo-50"
+                    : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"
                 }`}
               >
                 <span className="text-xl md:text-base">{item.icon}</span>

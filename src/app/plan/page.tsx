@@ -19,6 +19,7 @@ export default function PlanPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [plan, setPlan] = useState<GeneratedWorkoutPlan | null>(null);
+  const [personalized, setPersonalized] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -41,6 +42,7 @@ export default function PlanPage() {
     setLoading(true);
     setPlan(null);
     setSaved(false);
+    setPersonalized(false);
 
     try {
       const res = await fetch("/api/generate", {
@@ -62,6 +64,7 @@ export default function PlanPage() {
       }
 
       setPlan(data.plan);
+      setPersonalized(!!data.personalized);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
@@ -100,15 +103,15 @@ export default function PlanPage() {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white">Generate Workout Plan</h1>
-        <p className="text-slate-400 mt-1">Let AI craft the perfect workout for you</p>
+        <h1 className="text-2xl font-bold text-gray-900">Generate Workout Plan</h1>
+        <p className="text-gray-500 mt-1 text-sm">Let AI craft the perfect workout for you</p>
       </div>
 
       <form onSubmit={handleGenerate} className="space-y-6" data-testid="generate-form">
         {/* Fitness Level */}
         <div>
-          <label className="block text-sm font-semibold text-slate-300 mb-2">Fitness Level</label>
-          <div className="flex gap-3">
+          <label className="block text-sm font-medium text-gray-700 mb-2">Fitness Level</label>
+          <div className="flex gap-2">
             {FITNESS_LEVELS.map((level) => (
               <button
                 key={level}
@@ -117,8 +120,8 @@ export default function PlanPage() {
                 data-testid={`level-${level}`}
                 className={`flex-1 py-2 px-4 rounded-xl border text-sm font-medium capitalize transition-colors ${
                   fitnessLevel === level
-                    ? "bg-indigo-600 border-indigo-500 text-white"
-                    : "bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-600"
+                    ? "bg-indigo-600 border-indigo-600 text-white"
+                    : "bg-white border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50"
                 }`}
               >
                 {level}
@@ -129,8 +132,8 @@ export default function PlanPage() {
 
         {/* Goals */}
         <div>
-          <label className="block text-sm font-semibold text-slate-300 mb-2">
-            Goals <span className="text-slate-500">(select all that apply)</span>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Goals <span className="text-gray-400 font-normal">(select all that apply)</span>
           </label>
           <div className="flex flex-wrap gap-2">
             {GOALS.map((goal) => (
@@ -141,8 +144,8 @@ export default function PlanPage() {
                 data-testid={`goal-${goal.replace(/\s+/g, "-").toLowerCase()}`}
                 className={`py-1.5 px-4 rounded-full border text-sm font-medium transition-colors ${
                   selectedGoals.includes(goal)
-                    ? "bg-indigo-600 border-indigo-500 text-white"
-                    : "bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-600"
+                    ? "bg-indigo-600 border-indigo-600 text-white"
+                    : "bg-white border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50"
                 }`}
               >
                 {goal}
@@ -153,8 +156,8 @@ export default function PlanPage() {
 
         {/* Equipment */}
         <div>
-          <label className="block text-sm font-semibold text-slate-300 mb-2">
-            Available Equipment <span className="text-slate-500">(select all that apply)</span>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Available Equipment <span className="text-gray-400 font-normal">(select all that apply)</span>
           </label>
           <div className="flex flex-wrap gap-2">
             {EQUIPMENT.map((eq) => (
@@ -165,8 +168,8 @@ export default function PlanPage() {
                 data-testid={`equipment-${eq.replace(/\s+/g, "-").toLowerCase()}`}
                 className={`py-1.5 px-4 rounded-full border text-sm font-medium transition-colors ${
                   selectedEquipment.includes(eq)
-                    ? "bg-green-700 border-green-600 text-white"
-                    : "bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-600"
+                    ? "bg-emerald-600 border-emerald-600 text-white"
+                    : "bg-white border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50"
                 }`}
               >
                 {eq}
@@ -177,8 +180,8 @@ export default function PlanPage() {
 
         {/* Muscle Groups */}
         <div>
-          <label className="block text-sm font-semibold text-slate-300 mb-2">
-            Target Muscle Groups <span className="text-slate-500">(optional)</span>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Target Muscle Groups <span className="text-gray-400 font-normal">(optional)</span>
           </label>
           <div className="flex flex-wrap gap-2">
             {MUSCLE_GROUPS.map((mg) => (
@@ -188,8 +191,8 @@ export default function PlanPage() {
                 onClick={() => setSelectedMuscleGroups((prev) => toggle(prev, mg))}
                 className={`py-1.5 px-4 rounded-full border text-sm font-medium transition-colors ${
                   selectedMuscleGroups.includes(mg)
-                    ? "bg-purple-700 border-purple-600 text-white"
-                    : "bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-600"
+                    ? "bg-violet-600 border-violet-600 text-white"
+                    : "bg-white border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50"
                 }`}
               >
                 {mg}
@@ -200,8 +203,8 @@ export default function PlanPage() {
 
         {/* Duration */}
         <div>
-          <label className="block text-sm font-semibold text-slate-300 mb-2">
-            Duration: <span className="text-indigo-400">{duration} minutes</span>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Duration: <span className="text-indigo-600 font-semibold">{duration} minutes</span>
           </label>
           <input
             type="range"
@@ -211,9 +214,9 @@ export default function PlanPage() {
             value={duration}
             onChange={(e) => setDuration(Number(e.target.value))}
             data-testid="duration-slider"
-            className="w-full accent-indigo-500"
+            className="w-full accent-indigo-600"
           />
-          <div className="flex justify-between text-xs text-slate-500 mt-1">
+          <div className="flex justify-between text-xs text-gray-400 mt-1">
             <span>15 min</span>
             <span>90 min</span>
           </div>
@@ -221,8 +224,8 @@ export default function PlanPage() {
 
         {/* Restrictions */}
         <div>
-          <label className="block text-sm font-semibold text-slate-300 mb-2">
-            Restrictions / Notes <span className="text-slate-500">(optional)</span>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Restrictions / Notes <span className="text-gray-400 font-normal">(optional)</span>
           </label>
           <textarea
             value={restrictions}
@@ -230,12 +233,12 @@ export default function PlanPage() {
             placeholder="e.g. bad knees, avoid jumping exercises..."
             rows={3}
             data-testid="restrictions-input"
-            className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 resize-none"
+            className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none text-sm"
           />
         </div>
 
         {error && (
-          <div className="bg-red-900/50 border border-red-700 text-red-300 rounded-xl p-3 text-sm" data-testid="error-message">
+          <div className="bg-red-50 border border-red-200 text-red-600 rounded-xl p-3 text-sm" data-testid="error-message">
             {error}
           </div>
         )}
@@ -244,7 +247,7 @@ export default function PlanPage() {
           type="submit"
           disabled={loading}
           data-testid="generate-btn"
-          className="w-full py-4 bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-700 disabled:cursor-not-allowed text-white font-bold rounded-2xl text-lg transition-colors"
+          className="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed text-white font-semibold rounded-xl text-base transition-colors"
         >
           {loading ? "✨ Generating..." : "✨ Generate Workout Plan"}
         </button>
@@ -255,11 +258,19 @@ export default function PlanPage() {
         <div className="mt-10" data-testid="generated-plan">
           <div className="flex items-start justify-between mb-6 gap-4">
             <div>
-              <h2 className="text-2xl font-bold text-white">{plan.title}</h2>
-              <p className="text-slate-400 mt-1">{plan.description}</p>
-              <span className="inline-flex items-center gap-1 bg-slate-700 text-slate-300 text-xs px-2.5 py-1 rounded-full mt-2">
+              <h2 className="text-xl font-bold text-gray-900">{plan.title}</h2>
+              <p className="text-gray-500 mt-1 text-sm">{plan.description}</p>
+              <span className="inline-flex items-center gap-1 bg-gray-100 text-gray-600 text-xs px-2.5 py-1 rounded-full mt-2">
                 ⏱️ {plan.totalDurationMinutes} min
               </span>
+              {personalized && (
+                <span
+                  className="inline-flex items-center gap-1 bg-indigo-900/60 border border-indigo-700 text-indigo-300 text-xs px-2.5 py-1 rounded-full mt-2 ml-2"
+                  data-testid="personalized-badge"
+                >
+                  🎯 Personalized for you
+                </span>
+              )}
             </div>
             <button
               onClick={handleSave}
@@ -267,8 +278,8 @@ export default function PlanPage() {
               data-testid="save-plan-btn"
               className={`flex-shrink-0 px-4 py-2 font-medium rounded-xl transition-colors text-sm ${
                 saved
-                  ? "bg-green-800 text-green-200 cursor-default"
-                  : "bg-green-600 hover:bg-green-500 disabled:bg-slate-700 text-white"
+                  ? "bg-emerald-50 text-emerald-700 border border-emerald-200 cursor-default"
+                  : "bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-100 disabled:text-gray-400 text-white"
               }`}
             >
               {saved ? "✅ Saved!" : saving ? "Saving..." : "💾 Save Plan"}
@@ -280,12 +291,12 @@ export default function PlanPage() {
           <ExerciseList title="🧘 Cool-down" exercises={plan.cooldown} accentColor="green" />
 
           {plan.tips && plan.tips.length > 0 && (
-            <div className="bg-slate-800 rounded-2xl p-5 border border-slate-700 mt-4">
-              <h3 className="font-bold text-white mb-3">💡 Training Tips</h3>
+            <div className="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm mt-4">
+              <h3 className="font-semibold text-gray-900 mb-3">💡 Training Tips</h3>
               <ul className="space-y-2">
                 {plan.tips.map((tip, i) => (
-                  <li key={i} className="flex items-start gap-2 text-slate-300 text-sm">
-                    <span className="text-indigo-400 flex-shrink-0">→</span>
+                  <li key={i} className="flex items-start gap-2 text-gray-600 text-sm">
+                    <span className="text-indigo-500 flex-shrink-0">→</span>
                     {tip}
                   </li>
                 ))}

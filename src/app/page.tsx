@@ -4,33 +4,33 @@ export default function HomePage() {
   return (
     <div className="flex flex-col items-center justify-center min-h-[80vh] text-center px-4">
       {/* Hero */}
-      <div className="mb-8">
-        <div className="text-7xl mb-4">💪</div>
-        <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-4 leading-tight">
+      <div className="mb-10">
+        <div className="text-7xl mb-5">💪</div>
+        <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 mb-4 leading-tight">
           AI-Powered{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">
             Workout Planner
           </span>
         </h1>
-        <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto">
+        <p className="text-gray-500 text-lg md:text-xl max-w-2xl mx-auto">
           Generate personalised workout plans with Google Gemini, track your progress, and reach
           your fitness goals faster than ever.
         </p>
       </div>
 
       {/* CTA Buttons */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-16">
+      <div className="flex flex-col sm:flex-row gap-3 mb-16">
         <Link
           href="/plan"
           data-testid="cta-generate"
-          className="px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-2xl text-lg transition-all hover:scale-105 hover:shadow-lg hover:shadow-indigo-500/30"
+          className="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl text-base transition-all hover:shadow-md hover:shadow-indigo-200"
         >
           ✨ Generate Workout
         </Link>
         <Link
           href="/dashboard"
           data-testid="cta-dashboard"
-          className="px-8 py-4 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-2xl text-lg transition-all border border-slate-700 hover:border-slate-600"
+          className="px-8 py-3.5 bg-white hover:bg-gray-50 text-gray-700 font-semibold rounded-xl text-base transition-all border border-gray-200 hover:border-gray-300 shadow-sm"
         >
           📊 View Dashboard
         </Link>
@@ -72,11 +72,11 @@ export default function HomePage() {
         ].map((feature) => (
           <div
             key={feature.title}
-            className="bg-slate-800/60 border border-slate-700 rounded-2xl p-5 text-left hover:border-indigo-700 transition-colors"
+            className="bg-white border border-gray-200 rounded-2xl p-5 text-left hover:shadow-md transition-shadow"
           >
             <div className="text-3xl mb-3">{feature.icon}</div>
-            <h3 className="font-bold text-white mb-1">{feature.title}</h3>
-            <p className="text-slate-400 text-sm">{feature.desc}</p>
+            <h3 className="font-semibold text-gray-900 mb-1">{feature.title}</h3>
+            <p className="text-gray-500 text-sm">{feature.desc}</p>
           </div>
         ))}
       </div>
