@@ -43,12 +43,14 @@ export interface GeneratedWorkoutPlan {
 }
 
 export async function generateWorkoutPlan(
-  params: WorkoutGenerationParams
+  params: WorkoutGenerationParams,
+  ragContext?: string
 ): Promise<GeneratedWorkoutPlan> {
   const model = getGenAI().getGenerativeModel({ model: "gemini-1.5-flash" });
 
-  const prompt = `You are an expert personal trainer. Generate a detailed workout plan in valid JSON format.
+  const contextSection = ragContext ? `\n\n${ragContext}\n` : "";
 
+  const prompt = `You are an expert personal trainer. Generate a detailed workout plan in valid JSON format.${contextSection}
 Parameters:
 - Fitness Level: ${params.fitnessLevel}
 - Goals: ${params.goals.join(", ")}
