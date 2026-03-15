@@ -3,8 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --background: #0f172a;
-  --foreground: #f1f5f9;
+  --background: #f9fafb;
+  --foreground: #111827;
+  --surface: #ffffff;
+  --border: #e5e7eb;
+  --muted: #6b7280;
+  --accent: #4f46e5;
+  --accent-light: #eef2ff;
 }
 
 body {
@@ -23,16 +28,16 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1e293b;
+  background: #f3f4f6;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #475569;
+  background: #d1d5db;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #6366f1;
+  background: #4f46e5;
 }
 
 /* Line clamp utility */
@@ -42,7 +47,6 @@ html {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-
 
 @layer utilities {
   .text-balance {
