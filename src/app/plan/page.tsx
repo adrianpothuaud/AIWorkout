@@ -128,7 +128,7 @@ export default function PlanPage() {
             </p>
             <p className="text-sm text-amber-700 mb-3">
               Sans compte utilisateur, vos plans et sessions sont enregistrés localement dans votre
-              navigateur et peuvent être perdus si vous videz votre cache ou changez d'appareil.
+              navigateur et peuvent être perdus si vous videz votre cache ou changez d&apos;appareil.
               Créez un compte pour une sauvegarde sécurisée et persistante en base de données.
             </p>
             <div className="flex flex-wrap gap-2">
