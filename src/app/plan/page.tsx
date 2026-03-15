@@ -19,6 +19,7 @@ export default function PlanPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [plan, setPlan] = useState<GeneratedWorkoutPlan | null>(null);
+  const [personalized, setPersonalized] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -41,6 +42,7 @@ export default function PlanPage() {
     setLoading(true);
     setPlan(null);
     setSaved(false);
+    setPersonalized(false);
 
     try {
       const res = await fetch("/api/generate", {
@@ -62,6 +64,7 @@ export default function PlanPage() {
       }
 
       setPlan(data.plan);
+      setPersonalized(!!data.personalized);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
@@ -260,6 +263,14 @@ export default function PlanPage() {
               <span className="inline-flex items-center gap-1 bg-slate-700 text-slate-300 text-xs px-2.5 py-1 rounded-full mt-2">
                 ⏱️ {plan.totalDurationMinutes} min
               </span>
+              {personalized && (
+                <span
+                  className="inline-flex items-center gap-1 bg-indigo-900/60 border border-indigo-700 text-indigo-300 text-xs px-2.5 py-1 rounded-full mt-2 ml-2"
+                  data-testid="personalized-badge"
+                >
+                  🎯 Personalized for you
+                </span>
+              )}
             </div>
             <button
               onClick={handleSave}

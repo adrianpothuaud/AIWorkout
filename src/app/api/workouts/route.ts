@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import WorkoutPlan from "@/models/WorkoutPlan";
 import { generateWorkoutPlan, WorkoutGenerationParams } from "@/lib/gemini";
+import { buildWorkoutContext, formatContextForPrompt } from "@/lib/rag";
 
 export async function GET() {
   try {
@@ -27,8 +28,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Generate using Gemini
-    const generated = await generateWorkoutPlan(params);
+    // Build RAG context from workout history – fail silently if DB is unavailable
+    let ragContext: string | undefined;
+    try {
+      const context = await buildWorkoutContext();
+      ragContext = formatContextForPrompt(context);
+    } catch {
+      // RAG context is best-effort; generation proceeds without it
+    }
+
+    // Generate using Gemini with RAG context
+    const generated = await generateWorkoutPlan(params, ragContext);
 
     if (save) {
       await connectDB();
