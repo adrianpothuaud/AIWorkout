@@ -3,18 +3,20 @@ import { connectDB } from "@/lib/mongodb";
 import WorkoutPlan from "@/models/WorkoutPlan";
 import mongoose from "mongoose";
 
+// Next.js 15 requires route segment params to be a Promise
 interface RouteParams {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export async function GET(_request: NextRequest, { params }: RouteParams) {
+  const { id } = await params;
   try {
-    if (!mongoose.isValidObjectId(params.id)) {
+    if (!mongoose.isValidObjectId(id)) {
       return NextResponse.json({ error: "Invalid workout plan ID" }, { status: 400 });
     }
 
     await connectDB();
-    const plan = await WorkoutPlan.findById(params.id).lean();
+    const plan = await WorkoutPlan.findById(id).lean();
 
     if (!plan) {
       return NextResponse.json({ error: "Workout plan not found" }, { status: 404 });
@@ -28,13 +30,14 @@ export async function GET(_request: NextRequest, { params }: RouteParams) {
 }
 
 export async function DELETE(_request: NextRequest, { params }: RouteParams) {
+  const { id } = await params;
   try {
-    if (!mongoose.isValidObjectId(params.id)) {
+    if (!mongoose.isValidObjectId(id)) {
       return NextResponse.json({ error: "Invalid workout plan ID" }, { status: 400 });
     }
 
     await connectDB();
-    const plan = await WorkoutPlan.findByIdAndDelete(params.id);
+    const plan = await WorkoutPlan.findByIdAndDelete(id);
 
     if (!plan) {
       return NextResponse.json({ error: "Workout plan not found" }, { status: 404 });
