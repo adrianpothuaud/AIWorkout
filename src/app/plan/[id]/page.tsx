@@ -50,7 +50,7 @@ export default function PlanDetailPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="text-4xl animate-spin">⚙️</div>
+        <div className="w-8 h-8 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -59,8 +59,8 @@ export default function PlanDetailPage() {
     return (
       <div className="text-center py-16">
         <div className="text-4xl mb-4">⚠️</div>
-        <p className="text-red-400 mb-4">{error}</p>
-        <Link href="/dashboard" className="text-indigo-400 hover:text-indigo-300">
+        <p className="text-red-500 mb-4 text-sm">{error}</p>
+        <Link href="/dashboard" className="text-indigo-600 hover:text-indigo-700 text-sm">
           ← Back to Dashboard
         </Link>
       </div>
@@ -72,27 +72,27 @@ export default function PlanDetailPage() {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="flex items-center gap-4 mb-6">
-        <Link href="/dashboard" className="text-slate-400 hover:text-slate-200 transition-colors">
+        <Link href="/dashboard" className="text-gray-400 hover:text-gray-600 transition-colors text-sm">
           ← Back
         </Link>
       </div>
 
       <div className="flex items-start justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-3xl font-bold text-white" data-testid="plan-title">{plan.title}</h1>
-          <p className="text-slate-400 mt-1">{plan.description}</p>
+          <h1 className="text-2xl font-bold text-gray-900" data-testid="plan-title">{plan.title}</h1>
+          <p className="text-gray-500 mt-1 text-sm">{plan.description}</p>
           <div className="flex flex-wrap gap-2 mt-3">
-            <span className="bg-slate-700 text-slate-300 text-xs px-2.5 py-1 rounded-full">
+            <span className="bg-gray-100 text-gray-600 text-xs px-2.5 py-1 rounded-full">
               ⏱️ {plan.totalDurationMinutes} min
             </span>
-            <span className="bg-slate-700 text-slate-300 text-xs px-2.5 py-1 rounded-full capitalize">
+            <span className="bg-gray-100 text-gray-600 text-xs px-2.5 py-1 rounded-full capitalize">
               🎯 {plan.fitnessLevel}
             </span>
           </div>
           {plan.goals && (
             <div className="flex flex-wrap gap-1.5 mt-2">
               {plan.goals.map((g, i) => (
-                <span key={i} className="text-xs bg-indigo-950 text-indigo-300 border border-indigo-800 px-2 py-0.5 rounded-full">
+                <span key={i} className="text-xs bg-indigo-50 text-indigo-600 border border-indigo-100 px-2 py-0.5 rounded-full">
                   {g}
                 </span>
               ))}
@@ -102,13 +102,13 @@ export default function PlanDetailPage() {
         <div className="flex flex-col gap-2">
           <Link
             href="/log"
-            className="px-4 py-2 bg-green-600 hover:bg-green-500 text-white font-medium rounded-xl transition-colors text-sm text-center"
+            className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-xl transition-colors text-sm text-center"
           >
             📝 Log Session
           </Link>
           <button
             onClick={handleDelete}
-            className="px-4 py-2 bg-slate-700 hover:bg-red-800 text-slate-300 hover:text-red-200 font-medium rounded-xl transition-colors text-sm"
+            className="px-4 py-2 bg-white hover:bg-red-50 text-gray-400 hover:text-red-500 font-medium rounded-xl transition-colors text-sm border border-gray-200 hover:border-red-200"
           >
             🗑️ Delete
           </button>
@@ -120,12 +120,12 @@ export default function PlanDetailPage() {
       <ExerciseList title="🧘 Cool-down" exercises={plan.cooldown} accentColor="green" />
 
       {plan.tips && plan.tips.length > 0 && (
-        <div className="bg-slate-800 rounded-2xl p-5 border border-slate-700">
-          <h3 className="font-bold text-white mb-3">💡 Training Tips</h3>
+        <div className="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm">
+          <h3 className="font-semibold text-gray-900 mb-3">💡 Training Tips</h3>
           <ul className="space-y-2">
             {plan.tips.map((tip, i) => (
-              <li key={i} className="flex items-start gap-2 text-slate-300 text-sm">
-                <span className="text-indigo-400 flex-shrink-0">→</span>
+              <li key={i} className="flex items-start gap-2 text-gray-600 text-sm">
+                <span className="text-indigo-500 flex-shrink-0">→</span>
                 {tip}
               </li>
             ))}

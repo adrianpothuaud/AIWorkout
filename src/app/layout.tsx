@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
-    statusBarStyle: "black-translucent",
+    statusBarStyle: "default",
     title: "AIWorkout",
   },
   icons: {
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#6366f1",
+  themeColor: "#ffffff",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -35,7 +35,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="font-sans bg-slate-950 text-slate-100 min-h-screen">
+      <body className="font-sans bg-gray-50 text-gray-900 min-h-screen">
         <GoogleAnalytics />
         <GoogleAdSense />
         <Navbar />

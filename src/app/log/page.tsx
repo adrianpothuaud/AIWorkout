@@ -86,14 +86,14 @@ export default function LogPage() {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white">Log Workout Session</h1>
-        <p className="text-slate-400 mt-1">Record your completed workout</p>
+        <h1 className="text-2xl font-bold text-gray-900">Log Workout Session</h1>
+        <p className="text-gray-500 mt-1 text-sm">Record your completed workout</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6" data-testid="log-form">
         {/* Title */}
         <div>
-          <label className="block text-sm font-semibold text-slate-300 mb-2">Workout Title</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Workout Title</label>
           <input
             type="text"
             value={title}
@@ -101,25 +101,25 @@ export default function LogPage() {
             placeholder="e.g. Morning Upper Body"
             required
             data-testid="session-title-input"
-            className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+            className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
           />
         </div>
 
         {/* Date & Duration */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-semibold text-slate-300 mb-2">Date</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Date</label>
             <input
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
               data-testid="session-date-input"
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 focus:outline-none focus:border-indigo-500"
+              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-slate-300 mb-2">
-              Duration: <span className="text-indigo-400">{durationMinutes} min</span>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Duration: <span className="text-indigo-600 font-semibold">{durationMinutes} min</span>
             </label>
             <input
               type="number"
@@ -128,14 +128,14 @@ export default function LogPage() {
               min={1}
               max={300}
               data-testid="session-duration-input"
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 focus:outline-none focus:border-indigo-500"
+              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
             />
           </div>
         </div>
 
         {/* Rating */}
         <div>
-          <label className="block text-sm font-semibold text-slate-300 mb-2">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             How was your workout?
           </label>
           <div className="flex gap-2">
@@ -146,7 +146,7 @@ export default function LogPage() {
                 onClick={() => setRating(rating === star ? null : star)}
                 data-testid={`rating-${star}`}
                 className={`text-2xl transition-transform hover:scale-110 ${
-                  rating !== null && star <= rating ? "opacity-100" : "opacity-30"
+                  rating !== null && star <= rating ? "opacity-100" : "opacity-25"
                 }`}
               >
                 ⭐
@@ -158,31 +158,31 @@ export default function LogPage() {
         {/* Exercises */}
         <div>
           <div className="flex items-center justify-between mb-3">
-            <label className="text-sm font-semibold text-slate-300">Exercises</label>
+            <label className="text-sm font-medium text-gray-700">Exercises</label>
             <button
               type="button"
               onClick={addExercise}
               data-testid="add-exercise-btn"
-              className="text-sm text-indigo-400 hover:text-indigo-300 transition-colors"
+              className="text-sm text-indigo-600 hover:text-indigo-700 transition-colors font-medium"
             >
               + Add Exercise
             </button>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             {exercises.map((exercise, index) => (
               <div
                 key={index}
-                className="bg-slate-800 rounded-xl p-4 border border-slate-700"
+                className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm"
                 data-testid="exercise-log-item"
               >
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-slate-400 text-sm font-medium">Exercise {index + 1}</span>
+                  <span className="text-gray-400 text-xs font-medium">Exercise {index + 1}</span>
                   {exercises.length > 1 && (
                     <button
                       type="button"
                       onClick={() => removeExercise(index)}
-                      className="text-slate-500 hover:text-red-400 transition-colors text-sm"
+                      className="text-gray-400 hover:text-red-500 transition-colors text-xs"
                     >
                       Remove
                     </button>
@@ -195,14 +195,14 @@ export default function LogPage() {
                     onChange={(e) => updateExercise(index, "name", e.target.value)}
                     placeholder="Exercise name"
                     data-testid="exercise-name-input"
-                    className="bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 text-sm"
+                    className="bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
                   />
                   <input
                     type="text"
                     value={exercise.muscleGroup}
                     onChange={(e) => updateExercise(index, "muscleGroup", e.target.value)}
                     placeholder="Muscle group"
-                    className="bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 text-sm"
+                    className="bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
                   />
                   <div className="flex gap-2">
                     <input
@@ -211,14 +211,14 @@ export default function LogPage() {
                       onChange={(e) => updateExercise(index, "setsCompleted", Number(e.target.value))}
                       min={1}
                       placeholder="Sets"
-                      className="flex-1 bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-slate-200 focus:outline-none focus:border-indigo-500 text-sm"
+                      className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
                     />
                     <input
                       type="text"
                       value={exercise.repsCompleted}
                       onChange={(e) => updateExercise(index, "repsCompleted", e.target.value)}
                       placeholder="Reps"
-                      className="flex-1 bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 text-sm"
+                      className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
                     />
                   </div>
                   <input
@@ -226,7 +226,7 @@ export default function LogPage() {
                     value={exercise.notes}
                     onChange={(e) => updateExercise(index, "notes", e.target.value)}
                     placeholder="Notes (optional)"
-                    className="bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 text-sm"
+                    className="bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
                   />
                 </div>
               </div>
@@ -236,20 +236,20 @@ export default function LogPage() {
 
         {/* Overall Notes */}
         <div>
-          <label className="block text-sm font-semibold text-slate-300 mb-2">
-            Overall Notes <span className="text-slate-500">(optional)</span>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Overall Notes <span className="text-gray-400 font-normal">(optional)</span>
           </label>
           <textarea
             value={overallNotes}
             onChange={(e) => setOverallNotes(e.target.value)}
             placeholder="How did the workout feel? Any PRs?"
             rows={3}
-            className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 resize-none"
+            className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none text-sm"
           />
         </div>
 
         {error && (
-          <div className="bg-red-900/50 border border-red-700 text-red-300 rounded-xl p-3 text-sm">
+          <div className="bg-red-50 border border-red-200 text-red-600 rounded-xl p-3 text-sm">
             {error}
           </div>
         )}
@@ -258,7 +258,7 @@ export default function LogPage() {
           type="submit"
           disabled={submitting}
           data-testid="submit-log-btn"
-          className="w-full py-4 bg-green-600 hover:bg-green-500 disabled:bg-slate-700 disabled:cursor-not-allowed text-white font-bold rounded-2xl text-lg transition-colors"
+          className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed text-white font-semibold rounded-xl text-base transition-colors"
         >
           {submitting ? "Saving..." : "📝 Log Workout"}
         </button>

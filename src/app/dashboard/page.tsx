@@ -71,12 +71,12 @@ export default function DashboardPage() {
     <div>
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-white">Dashboard</h1>
-          <p className="text-slate-400 mt-1">Your workout overview</p>
+          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+          <p className="text-gray-500 mt-1 text-sm">Your workout overview</p>
         </div>
         <Link
           href="/plan"
-          className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-xl transition-colors"
+          className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl transition-colors text-sm"
         >
           + New Plan
         </Link>
@@ -85,8 +85,8 @@ export default function DashboardPage() {
       {loading ? (
         <div className="flex items-center justify-center min-h-[40vh]">
           <div className="text-center">
-            <div className="text-4xl animate-spin mb-4">⚙️</div>
-            <p className="text-slate-400">Loading dashboard...</p>
+            <div className="w-8 h-8 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+            <p className="text-gray-500 text-sm">Loading dashboard...</p>
           </div>
         </div>
       ) : (
@@ -100,12 +100,12 @@ export default function DashboardPage() {
         ].map((stat) => (
           <div
             key={stat.label}
-            className="bg-slate-800 rounded-2xl p-4 border border-slate-700"
+            className="bg-white rounded-2xl p-4 border border-gray-200 shadow-sm"
             data-testid="stat-card"
           >
             <div className="text-2xl mb-2">{stat.icon}</div>
-            <div className="text-2xl font-bold text-white">{stat.value}</div>
-            <div className="text-slate-400 text-sm">{stat.label}</div>
+            <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
+            <div className="text-gray-500 text-sm">{stat.label}</div>
           </div>
         ))}
       </div>
@@ -113,20 +113,20 @@ export default function DashboardPage() {
       {/* Recent Plans */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-white">Saved Plans</h2>
+          <h2 className="text-lg font-semibold text-gray-900">Saved Plans</h2>
           {plans.length > 3 && (
-            <Link href="/history" className="text-indigo-400 text-sm hover:text-indigo-300">
+            <Link href="/history" className="text-indigo-600 text-sm hover:text-indigo-700">
               View all →
             </Link>
           )}
         </div>
         {plans.length === 0 ? (
-          <div className="bg-slate-800 rounded-2xl p-8 border border-slate-700 text-center">
+          <div className="bg-white rounded-2xl p-8 border border-gray-200 text-center shadow-sm">
             <div className="text-4xl mb-3">📋</div>
-            <p className="text-slate-400 mb-4">No workout plans yet.</p>
+            <p className="text-gray-500 mb-4 text-sm">No workout plans yet.</p>
             <Link
               href="/plan"
-              className="inline-block px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-xl transition-colors"
+              className="inline-block px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl transition-colors text-sm"
             >
               Generate your first plan
             </Link>
@@ -158,41 +158,41 @@ export default function DashboardPage() {
       {/* Recent Sessions */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-white">Recent Sessions</h2>
+          <h2 className="text-lg font-semibold text-gray-900">Recent Sessions</h2>
           {sessions.length > 5 && (
-            <Link href="/history" className="text-indigo-400 text-sm hover:text-indigo-300">
+            <Link href="/history" className="text-indigo-600 text-sm hover:text-indigo-700">
               View all →
             </Link>
           )}
         </div>
         {sessions.length === 0 ? (
-          <div className="bg-slate-800 rounded-2xl p-8 border border-slate-700 text-center">
+          <div className="bg-white rounded-2xl p-8 border border-gray-200 text-center shadow-sm">
             <div className="text-4xl mb-3">📅</div>
-            <p className="text-slate-400 mb-4">No workout sessions logged yet.</p>
+            <p className="text-gray-500 mb-4 text-sm">No workout sessions logged yet.</p>
             <Link
               href="/log"
-              className="inline-block px-4 py-2 bg-green-600 hover:bg-green-500 text-white font-medium rounded-xl transition-colors"
+              className="inline-block px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-xl transition-colors text-sm"
             >
               Log your first session
             </Link>
           </div>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-2">
             {sessions.slice(0, 5).map((session) => (
               <div
                 key={session._id}
-                className="bg-slate-800 rounded-xl p-4 border border-slate-700 flex items-center justify-between"
+                className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm flex items-center justify-between"
                 data-testid="session-item"
               >
                 <div>
-                  <p className="font-medium text-white">{session.title}</p>
-                  <p className="text-slate-400 text-sm">
+                  <p className="font-medium text-gray-900 text-sm">{session.title}</p>
+                  <p className="text-gray-500 text-xs mt-0.5">
                     {new Date(session.date).toLocaleDateString()} · {session.durationMinutes} min ·{" "}
                     {session.exercises?.length || 0} exercises
                   </p>
                 </div>
                 {session.rating && (
-                  <div className="text-amber-400 font-bold">
+                  <div className="text-amber-500 font-bold text-sm">
                     {"⭐".repeat(session.rating)}
                   </div>
                 )}
