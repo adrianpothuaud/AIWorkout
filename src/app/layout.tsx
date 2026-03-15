@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
+import GoogleAdSense from "@/components/GoogleAdSense";
 
 export const metadata: Metadata = {
   title: "AIWorkout – AI-Powered Workout Planner",
@@ -13,6 +15,9 @@ export const metadata: Metadata = {
   },
   icons: {
     apple: "/icons/icon-192x192.png",
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   },
 };
 
@@ -31,6 +36,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="font-sans bg-slate-950 text-slate-100 min-h-screen">
+        <GoogleAnalytics />
+        <GoogleAdSense />
         <Navbar />
         <main className="max-w-7xl mx-auto px-4 pt-4 pb-24 md:pt-20 md:pb-8">
           {children}
