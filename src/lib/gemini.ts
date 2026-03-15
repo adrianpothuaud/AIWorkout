@@ -19,6 +19,7 @@ export interface WorkoutGenerationParams {
   goals: string[];
   availableEquipment: string[];
   durationMinutes: number;
+  discipline?: string;
   muscleGroups?: string[];
   restrictions?: string;
 }
@@ -46,7 +47,7 @@ export async function generateWorkoutPlan(
   params: WorkoutGenerationParams,
   ragContext?: string
 ): Promise<GeneratedWorkoutPlan> {
-  const model = getGenAI().getGenerativeModel({ model: "gemini-1.5-flash" });
+  const model = getGenAI().getGenerativeModel({ model: "gemini-2.0-flash" });
 
   const contextSection = ragContext ? `\n\n${ragContext}\n` : "";
 
@@ -56,6 +57,7 @@ Parameters:
 - Goals: ${params.goals.join(", ")}
 - Available Equipment: ${params.availableEquipment.join(", ")}
 - Duration: ${params.durationMinutes} minutes
+${params.discipline ? `- Discipline / Training Style: ${params.discipline}` : ""}
 ${params.muscleGroups ? `- Target Muscle Groups: ${params.muscleGroups.join(", ")}` : ""}
 ${params.restrictions ? `- Restrictions/Notes: ${params.restrictions}` : ""}
 
@@ -93,7 +95,7 @@ Return ONLY a JSON object with this exact structure (no markdown, no explanation
 }
 
 export async function getWorkoutTips(workoutType: string, fitnessLevel: string): Promise<string[]> {
-  const model = getGenAI().getGenerativeModel({ model: "gemini-1.5-flash" });
+  const model = getGenAI().getGenerativeModel({ model: "gemini-2.0-flash" });
 
   const prompt = `Give 5 concise, actionable tips for a ${fitnessLevel} person doing ${workoutType} workout. 
 Return ONLY a JSON array of strings, e.g. ["tip1", "tip2", ...]`;

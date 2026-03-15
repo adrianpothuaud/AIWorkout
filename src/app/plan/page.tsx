@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Link from "next/link";
 import ExerciseList from "@/components/ExerciseList";
 import { GeneratedWorkoutPlan } from "@/lib/gemini";
 
@@ -8,12 +9,14 @@ const FITNESS_LEVELS = ["beginner", "intermediate", "advanced"] as const;
 const GOALS = ["Weight Loss", "Muscle Gain", "Endurance", "Flexibility", "Strength", "General Fitness"];
 const EQUIPMENT = ["No Equipment", "Dumbbells", "Barbell", "Resistance Bands", "Pull-up Bar", "Kettlebell", "Full Gym"];
 const MUSCLE_GROUPS = ["Full Body", "Upper Body", "Lower Body", "Core", "Chest", "Back", "Shoulders", "Arms", "Legs", "Glutes"];
+const DISCIPLINES = ["Street Workout", "Musculation", "CrossFit", "Cardio", "Gym", "Yoga", "HIIT", "Running"];
 
 export default function PlanPage() {
   const [fitnessLevel, setFitnessLevel] = useState<"beginner" | "intermediate" | "advanced">("beginner");
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
   const [selectedEquipment, setSelectedEquipment] = useState<string[]>([]);
   const [selectedMuscleGroups, setSelectedMuscleGroups] = useState<string[]>([]);
+  const [discipline, setDiscipline] = useState<string | null>(null);
   const [duration, setDuration] = useState(45);
   const [restrictions, setRestrictions] = useState("");
   const [loading, setLoading] = useState(false);
@@ -22,6 +25,15 @@ export default function PlanPage() {
   const [personalized, setPersonalized] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [bannerDismissed, setBannerDismissed] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((r) => r.json())
+      .then((data) => setIsAuthenticated(!!data.user))
+      .catch(() => setIsAuthenticated(false));
+  }, []);
 
   function toggle<T>(arr: T[], item: T): T[] {
     return arr.includes(item) ? arr.filter((x) => x !== item) : [...arr, item];
@@ -53,6 +65,7 @@ export default function PlanPage() {
           goals: selectedGoals,
           availableEquipment: selectedEquipment,
           durationMinutes: duration,
+          discipline: discipline || undefined,
           muscleGroups: selectedMuscleGroups.length > 0 ? selectedMuscleGroups : undefined,
           restrictions: restrictions || undefined,
         }),
@@ -102,12 +115,78 @@ export default function PlanPage() {
 
   return (
     <div className="max-w-2xl mx-auto">
+      {/* Unauthenticated user banner */}
+      {isAuthenticated === false && !bannerDismissed && (
+        <div
+          className="mb-6 bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-start gap-3"
+          data-testid="guest-banner"
+        >
+          <span className="text-2xl flex-shrink-0">⚠️</span>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold text-amber-800 mb-1">
+              Données stockées uniquement dans votre navigateur
+            </p>
+            <p className="text-sm text-amber-700 mb-3">
+              Sans compte utilisateur, vos plans et sessions sont enregistrés localement dans votre
+              navigateur et peuvent être perdus si vous videz votre cache ou changez d'appareil.
+              Créez un compte pour une sauvegarde sécurisée et persistante en base de données.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <Link
+                href="/register"
+                className="px-4 py-1.5 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold rounded-lg transition-colors"
+                data-testid="guest-banner-register"
+              >
+                Créer un compte
+              </Link>
+              <Link
+                href="/login"
+                className="px-4 py-1.5 bg-white hover:bg-amber-50 text-amber-700 text-sm font-semibold rounded-lg border border-amber-300 transition-colors"
+                data-testid="guest-banner-login"
+              >
+                Se connecter
+              </Link>
+              <button
+                onClick={() => setBannerDismissed(true)}
+                className="px-4 py-1.5 text-amber-600 hover:text-amber-800 text-sm font-medium transition-colors"
+                data-testid="guest-banner-dismiss"
+              >
+                Ignorer
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-gray-900">Generate Workout Plan</h1>
         <p className="text-gray-500 mt-1 text-sm">Let AI craft the perfect workout for you</p>
       </div>
 
       <form onSubmit={handleGenerate} className="space-y-6" data-testid="generate-form">
+        {/* Discipline */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Discipline <span className="text-gray-400 font-normal">(optional)</span>
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {DISCIPLINES.map((d) => (
+              <button
+                key={d}
+                type="button"
+                onClick={() => setDiscipline((prev) => (prev === d ? null : d))}
+                data-testid={`discipline-${d.replace(/\s+/g, "-").toLowerCase()}`}
+                className={`py-1.5 px-4 rounded-full border text-sm font-medium transition-colors ${
+                  discipline === d
+                    ? "bg-violet-600 border-violet-600 text-white"
+                    : "bg-white border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50"
+                }`}
+              >
+                {d}
+              </button>
+            ))}
+          </div>
+        </div>
         {/* Fitness Level */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Fitness Level</label>
